@@ -21,29 +21,19 @@ public class TestGrading {
     private Test test;
 
     public int ProcessTest(int id){
-      test = TestRepo.getTest(id);
-      int grade = check(test.getAsnwers());
-      return passfail(grade);
-    }
+        test = TestRepo.getTest(id);
+        int grade = check(test.getAsnwers());
 
-    private int check(List<Answer> answers){
-      int grade;
-      for(int i = 0 ; i < answers.size(); i++){
-        grade = answerValidation.grade(answers.get(i));
-      }
-      if(grade < 5){
+        for(int i = 0 ; i < answers.size(); i++){
+            grade = answerValidation.grade(answers.get(i));
+        }
+        if(grade > 8){
+            return 2;
+        }
+        if(grade > 5){
+            return 1;
+        }
         test.setStatus("Failed");
-      }
-      return grade;
-    }
-
-    private int passfail(int grade){
-      if(grade > 8){
-        return 2;
-      }
-      if(grade > 5){
-        return 1;
-      }
-      return 0;
+        return 0;
     }
 }
